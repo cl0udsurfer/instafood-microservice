@@ -1,0 +1,41 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: catalog-depl
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: catalog
+  template:
+    metadata:
+      labels:
+        app: catalog
+    spec:
+      containers:
+        - name: catalog
+          image: viktorser/catalog
+          env:
+            - name: NATS_CLIENT_ID
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.name
+            - name: NATS_URL
+              value: 'http://nats-srv:4222'
+            - name: NATS_CLUSTER_ID
+              value: instafood
+            - name: MONGO_URI
+              value: 'mongodb://catalog-mongo-srv:27017/catalog'
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: catalog-srv
+spec:
+  selector:
+    app: catalog
+  ports:
+    - name: catalog
+      protocol: TCP
+      port: 3000
+      targetPort: 3000
