@@ -53,11 +53,11 @@ const productData = [
 ];
 
 const Index = () => {
-  const { ToastContainer } = useNotification();
+  const { Notification } = useNotification();
 
   return (
     <Modal>
-      <ToastContainer />
+      <Notification />
       <>
         <Banner
           intlTitleId='groceriesTitle'
