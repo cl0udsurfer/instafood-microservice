@@ -4,14 +4,12 @@ import { BadRequestError } from '@instafood/common';
 import { User } from '../models/User';
 import sgMail from '@sendgrid/mail';
 
-sgMail.setApiKey(
-  process.env.SENDGRID_API_KEY!
-);
+sgMail.setApiKey(process.env.SENDGRID_API_KEY!);
 
 export const signup = (req: Request, res: Response) => {
   const { email, password } = req.body;
 
-  User.findOne({ email }).exec((err, user) => {
+  User.findOne({ email }).exec((_err, user) => {
     if (user) {
       throw new BadRequestError('Email in use');
     }
@@ -29,11 +27,12 @@ export const signup = (req: Request, res: Response) => {
 
     sgMail
       .send(emailData)
-      .then((sent) => {
-        res.status(201).send('Successfully signed up. Check your emails.');
+      .then(() => {
+        res
+          .status(201)
+          .send({ response: 'Successfully signed up. Check your emails.' });
       })
-      .catch((err) => {
-        console.log(err.response.body.errors);
+      .catch(() => {
         throw new BadRequestError('Something went wrong');
       });
   });

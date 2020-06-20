@@ -9,7 +9,6 @@ import {
   ContentSection,
 } from 'styled/pages.style';
 import { Sidebar } from 'components';
-import useNotification from 'hooks/useNotification';
 
 const categoryData = [
   {
@@ -53,11 +52,8 @@ const productData = [
 ];
 
 const Index = () => {
-  const { Notification } = useNotification();
-
   return (
     <Modal>
-      <Notification />
       <>
         <Banner
           intlTitleId='groceriesTitle'

@@ -2,7 +2,6 @@ import React, { useState, useContext } from 'react';
 import Link from 'next/link';
 import { FormattedMessage } from 'react-intl';
 
-import useNotification from 'hooks/useNotification';
 import useRequest from 'hooks/useRequest';
 import { AuthContext } from 'context/auth/auth.context';
 import { Button } from 'components';
@@ -20,7 +19,6 @@ import {
 
 const SignupForm = () => {
   const { authDispatch } = useContext<any>(AuthContext);
-  const { notify } = useNotification();
   const [values, setValues] = useState({
     email: '',
     password: '',
@@ -33,7 +31,7 @@ const SignupForm = () => {
       email,
       password,
     },
-    onSuccess: (response) => notify(response),
+    onSuccess: (response) => console.log(response),
   });
 
   const toggleSignInForm = () => {
